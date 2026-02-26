@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>For You 💗</title>
+
+<style>
+body {
+    margin:0;
+    overflow:hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#ff9ecf,#ffcce6,#ffd6f5);
+    text-align:center;
+    color:white;
+}
+
+.container {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+input {
+    padding:12px;
+    border-radius:30px;
+    border:none;
+    outline:none;
+    width:220px;
+    text-align:center;
+}
+
+button {
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#ff4da6;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+#messageText {
+    font-size:38px;
+    max-width:80vw;
+    margin:auto;
+    min-height:60px;
+}
+
+.heart {
+    position:fixed;
+    bottom:-20px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% {transform: translateY(0) rotate(0deg);}
+    100% {transform: translateY(-110vh) rotate(360deg);}
+}
+
+.sparkle {
+    position:fixed;
+    color:white;
+    animation: sparkleAnim 2s linear infinite;
+}
+
+@keyframes sparkleAnim {
+    0% {opacity:1;}
+    50% {opacity:0;}
+    100% {opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="loginBox">
+    <h2>Nhập mật khẩu của bạn 💌</h2>
+    <input type="password" id="password">
+    <br>
+    <button onclick="checkPassword()">Vào</button>
+</div>
+
+<div class="container" id="messageBox" style="display:none;">
+    <h1 id="messageText"></h1>
+</div>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const passwords = {
+    "lan123": "Cảm ơn Lan đã đến 💗 Em rất trân trọng điều đó ✨",
+    "minh456": "Cảm ơn Minh đã đến 💗 Hy vọng chúng ta mãi vui vẻ ✨",
+    "anh789": "Cảm ơn Anh đã đến 💗 Điều đó thật đặc biệt ✨",
+    "hoa111": "Cảm ơn Hoa đã đến 💗 Bạn thật tuyệt vời ✨",
+    "nam222": "Cảm ơn Nam đã đến 💗 Rất vui vì có bạn ✨",
+    "vy333": "Cảm ơn Vy đã đến 💗 Một ngày thật đẹp ✨",
+    "trang444": "Cảm ơn Trang đã đến 💗 Mãi bên nhau nhé ✨",
+    "khanh555": "Cảm ơn Khánh đã đến 💗 Bạn làm ngày hôm nay ý nghĩa ✨",
+    "mai666": "Cảm ơn Mai đã đến 💗 Thật sự rất quý bạn ✨",
+    "linh777": "Cảm ơn Linh đã đến 💗 Tất cả đều tuyệt vời ✨",
+    "phuc888": "Cảm ơn Phúc đã đến 💗 Rất trân trọng ✨",
+    "thao999": "Cảm ơn Thảo đã đến 💗 Hy vọng bạn thích điều này ✨",
+    "hung000": "Cảm ơn Hùng đã đến 💗 Bạn thật đáng yêu ✨",
+    "ngoc101": "Cảm ơn Ngọc đã đến 💗 Mọi thứ thật lung linh ✨",
+    "dat202": "Cảm ơn Đạt đã đến 💗 Một điều bất ngờ nhỏ ✨"
+};
+
+function typeWriter(text, element) {
+    let i = 0;
+    element.innerHTML = "";
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 50);
+        }
+    }
+    typing();
+}
+
+function checkPassword() {
+    const input = document.getElementById("password").value;
+    if(passwords[input]) {
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("messageBox").style.display="block";
+        typeWriter(passwords[input], document.getElementById("messageText"));
+        document.getElementById("music").play();
+        createHearts();
+        createSparkles();
+    } else {
+        alert("Sai mật khẩu rồi nhaaa 😝");
+    }
+}
+
+function createHearts(){
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML="💖";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=Math.random()*30+20+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>{heart.remove();},6000);
+    },300);
+}
+
+function createSparkles(){
+    setInterval(()=>{
+        const sp = document.createElement("div");
+        sp.classList.add("sparkle");
+        sp.innerHTML="✨";
+        sp.style.left=Math.random()*100+"vw";
+        sp.style.top=Math.random()*100+"vh";
+        sp.style.fontSize=Math.random()*20+10+"px";
+        document.body.appendChild(sp);
+        setTimeout(()=>{sp.remove();},2000);
+    },500);
+}
+</script>
+
+</body>
+</html>
