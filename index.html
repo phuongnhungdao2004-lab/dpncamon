@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thank You 💗</title>
+<style>
+body {
+    margin:0;
+    overflow:hidden;
+    background: linear-gradient(to top, #ff9ecf, #ffc0e6);
+    font-family: Arial, sans-serif;
+    text-align:center;
+    color:white;
+}
+
+.container {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+input {
+    padding:10px;
+    border-radius:20px;
+    border:none;
+    outline:none;
+}
+
+button {
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:white;
+    color:#ff4da6;
+    cursor:pointer;
+}
+
+h1 {
+    animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+.heart {
+    position:fixed;
+    bottom:-10px;
+    color:red;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(-100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="loginBox">
+    <h2>Nhập mật khẩu của bạn 💌</h2>
+    <input type="password" id="password">
+    <button onclick="checkPassword()">Vào</button>
+</div>
+
+<div class="container" id="messageBox" style="display:none;">
+    <h1 id="messageText"></h1>
+</div>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const passwords = {
+    "lan123": "Cảm ơn Lan đã đến 💗",
+    "minh456": "Cảm ơn Minh đã đến 💗",
+    "anh789": "Cảm ơn Anh đã đến 💗",
+    "hoa111": "Cảm ơn Hoa đã đến 💗",
+    "nam222": "Cảm ơn Nam đã đến 💗",
+    "vy333": "Cảm ơn Vy đã đến 💗",
+    "trang444": "Cảm ơn Trang đã đến 💗",
+    "khanh555": "Cảm ơn Khánh đã đến 💗",
+    "mai666": "Cảm ơn Mai đã đến 💗",
+    "linh777": "Cảm ơn Linh đã đến 💗",
+    "phuc888": "Cảm ơn Phúc đã đến 💗",
+    "thao999": "Cảm ơn Thảo đã đến 💗",
+    "hung000": "Cảm ơn Hùng đã đến 💗",
+    "ngoc101": "Cảm ơn Ngọc đã đến 💗",
+    "dat202": "Cảm ơn Đạt đã đến 💗"
+};
+
+function checkPassword() {
+    const input = document.getElementById("password").value;
+    if(passwords[input]) {
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("messageBox").style.display="block";
+        document.getElementById("messageText").innerText=passwords[input];
+        document.getElementById("music").play();
+        createHearts();
+    } else {
+        alert("Sai mật khẩu rồi nhaaa 😝");
+    }
+}
+
+function createHearts(){
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML="💖";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=Math.random()*30+20+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>{heart.remove();},5000);
+    },300);
+}
+</script>
+
+</body>
+</html>
