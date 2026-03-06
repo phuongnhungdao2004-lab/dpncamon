@@ -1,123 +1,237 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Thank You 💗</title>
+<title>Cảm Ơn Bạn 💗</title>
+
 <style>
-body {
-    margin:0;
-    overflow:hidden;
-    background: linear-gradient(to top, #ff9ecf, #ffc0e6);
-    font-family: Arial, sans-serif;
-    text-align:center;
-    color:white;
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#ffb6d9,#ffd6eb);
+overflow-x:hidden;
 }
 
-.container {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+/* ===== FLOAT HEART ===== */
+
+.floatLayer{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
 }
 
-input {
-    padding:10px;
-    border-radius:20px;
-    border:none;
-    outline:none;
+.heart{
+position:absolute;
+font-size:22px;
+animation:heartUp linear infinite;
 }
 
-button {
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    background:white;
-    color:#ff4da6;
-    cursor:pointer;
+@keyframes heartUp{
+0%{transform:translateY(100vh);opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
 }
 
-h1 {
-    animation: fadeIn 2s;
+/* ===== FIREWORK ===== */
+
+.firework{
+position:absolute;
+width:6px;
+height:6px;
+border-radius:50%;
+animation:explode 1s ease-out forwards;
 }
 
-@keyframes fadeIn {
-    from {opacity:0;}
-    to {opacity:1;}
+@keyframes explode{
+0%{transform:scale(1);opacity:1;}
+100%{transform:scale(15);opacity:0;}
 }
 
-.heart {
-    position:fixed;
-    bottom:-10px;
-    color:red;
-    animation: float 5s linear infinite;
+/* ===== LOGIN ===== */
+
+#loginBox{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:35px;
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,0,0,0.2);
+text-align:center;
+z-index:2;
 }
 
-@keyframes float {
-    0% {transform: translateY(0);}
-    100% {transform: translateY(-100vh);}
+input{
+padding:10px;
+border-radius:10px;
+border:1px solid pink;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#ff66a3;
+color:white;
+cursor:pointer;
+}
+
+/* ===== THANK AREA ===== */
+
+#thankArea{
+display:none;
+padding:40px 20px;
+text-align:center;
+position:relative;
+z-index:1;
+}
+
+.mainImg{
+width:260px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.2);
+margin-bottom:20px;
+}
+
+.textBox{
+max-width:750px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.1);
+text-align:left;
+line-height:1.8;
+font-size:18px;
+max-height:400px;
+overflow-y:auto;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="loginBox">
-    <h2>Nhập mật khẩu của bạn 💌</h2>
-    <input type="password" id="password">
-    <button onclick="checkPassword()">Vào</button>
+<div class="floatLayer" id="floatLayer"></div>
+
+<!-- LOGIN -->
+
+<div id="loginBox">
+<h2 style="font-size:36px;color:#ff4d94;">Graduation Princess 💌</h2>
+<h3>Nhập password</h3>
+<input type="password" id="password" maxlength="8" placeholder="VD: 01012000">
+<br><br>
+<button onclick="checkPass()">Xác nhận</button>
 </div>
 
-<div class="container" id="messageBox" style="display:none;">
-    <h1 id="messageText"></h1>
+<!-- THANK AREA -->
+
+<div id="thankArea">
+<img id="mainImage" class="mainImg">
+<div class="textBox" id="thankText"></div>
 </div>
 
-<audio id="music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<!-- NHẠC -->
+<audio id="bgMusic" loop>
+<source src="https://image2url.com/r2/default/audio/1772122028095-99148b55-7421-4a2a-90fe-c6a6fd21f29a.mp3" type="audio/mp3">
 </audio>
 
 <script>
-const passwords = {
-    "lan123": "Cảm ơn Lan đã đến 💗",
-    "minh456": "Cảm ơn Minh đã đến 💗",
-    "anh789": "Cảm ơn Anh đã đến 💗",
-    "hoa111": "Cảm ơn Hoa đã đến 💗",
-    "nam222": "Cảm ơn Nam đã đến 💗",
-    "vy333": "Cảm ơn Vy đã đến 💗",
-    "trang444": "Cảm ơn Trang đã đến 💗",
-    "khanh555": "Cảm ơn Khánh đã đến 💗",
-    "mai666": "Cảm ơn Mai đã đến 💗",
-    "linh777": "Cảm ơn Linh đã đến 💗",
-    "phuc888": "Cảm ơn Phúc đã đến 💗",
-    "thao999": "Cảm ơn Thảo đã đến 💗",
-    "hung000": "Cảm ơn Hùng đã đến 💗",
-    "ngoc101": "Cảm ơn Ngọc đã đến 💗",
-    "dat202": "Cảm ơn Đạt đã đến 💗"
+
+/* ===== USER DATA ===== */
+
+const users = {
+"13052005":{message:"Hi chị iu 🫶Cảm ơn chị vì luôn là người sống tình cảm, lúc nào cũng ấm áp với mọi người 🤍 Mong chị sớm giàu thiệt giàu để cho em thực hiện ước mơ đi vòng quanh thế giới =)))) 🌍✨ Chúc đời chị bớt lận đận lại, chỉ toàn chuyện vui thôi 🥹 Cảm ơn chị iu đã tới với iem hum nay nhaa ❤️",img:"https://sf-static.upanhlaylink.com/img/image_202603018f06d602dbc1e35c611798fec4602324.jpg"},
+"17072003":{message:"Cảm ơn chị đã đến ngày tốt nghiệp của em nha 🤍 Mong chị béo hơn xíu để còn cùng em ăn sạch thứ ngon vật lạ trên thế giới nữa 🫰🏼✨ Chúc ra trường có việc lương trăm củ, với nhớ giục anh Huynh lấy vợ đi cho em sớm có cháu nha =)))🥰",img:"https://sf-static.upanhlaylink.com/img/image_202603018f06d602dbc1e35c611798fec4602324.jpg"},
+"20122004":{message:"Cảm ơn chó đã iu em , đã ở bên em, đã làm siu trợ lý của ielm . IU TRỢ LÝ CỦA TUI NHÌUUUUU🌸",img:"https://sf-static.upanhlaylink.com/img/image_20260301fd1e1954cea0cb2d529c654e3742a2f2.jpg"},
+"26072003":{message:" Cảm ơn anh đã đến chung vui với em hôm nay 🤍 Trong một đoạn đại học của em, anh thật sự là tấm gương sáng để em nhìn vào và cố gắng. Lúc nào anh cũng support em nhiệt tình hết mình 🥹 Với em, anh là một trong những người anh tuyệt vời nhất lun. Cảm ơn anh rấc nhìuuuu 🫶✨",img:"https://sf-static.upanhlaylink.com/img/image_2026030128332f25776a7110749c09d5f995e70b.jpg"},
+"19042006":{message:" Đồ em ghẻ, đồ con zời, ấm đầu mà lắm chuyện nhất trên đời =))) Ovtk vừa thôi nha, nghĩ ít lại cho dễ sống… mà thôi, nghĩ nhiều cũng được miễn là nghĩ ra tiền cho tao ké là được🫰🏼 Nói vậy chứ thật lòng đây quý đấy lắm. Cảm ơn vì đã đến hôm nay, vì vẫn ở đây cùng tao qua từng chuyện nhỏ xíu 🤍 Chúc con vợ giàu để tao hưởng ké, chúc vui, chúc sớm có tất cả những điều mày xứng đáng.",img:"https://sf-static.upanhlaylink.com/img/image_2026030137442cf068d81a2b53508c2db6b3794a.jpg"},
+"15122006":{message:"Quang Minh à, em nhiều chuyện, nhiều trò thật, nhưng chính mấy điều nhỏ xíu đó lại làm mọi thứ vui hơn hẳn. NHƯNG PLZ BỚT NHẮC NHỮNG NGƯỜI KHÔNG LIÊN QUAN LẠI , tôi không thích. Thật lòng mà nói, Minh sống tình cảm lắm, dễ gần, dễ tính, dễ thương theo cách rất riêng. Cảm ơn vì đã đến hôm nay, sự có mặt của em làm chị thấy được trân trọng thật sự 🤍 Then kiu vì đã luôn là một phần đẹp trong hành trình của dpn🫶✨ ",img:"https://sf-static.upanhlaylink.com/img/image_202603015369ffc451446e55ae7b6f539c5f39f4.jpg"},
+"13062006":{message:" Dù chị em chúng mìn chưa có nhiều dịp tâm sự sâu hay hiểu hết về nhau, chỉ đi cùng nhau một đoạn ngắn thôi, nhưng dpn vẫn cảm nhận được BTD là người luôn quan tâm người khác thật lòng 🤍 Cảm ơn vì sự thấu hiểu mà em dành cho tôi trong những lúc cần thiết 🥹 Hy vọng tương lai Dũng sẽ năng động hơn, nhiều bồ hơn cho đời bớt chán =))) Sớm ra trường, có hobo xịn xò và sớm mở được công ty riêng cho tao làm nha 🫶✨",img:"https://sf-static.upanhlaylink.com/img/image_202603019cf07ee3c003b483c20122f090b631c1.jpg"},
+"18062006":{message:"Mặc dù là chị em mình chưa có nhiều dịp tâm sự với nhau, cũng chỉ đi cùng nhau một đoạn đường ngắn thôi, nhưng dpn tin một đứa năng động như Dương thì sớm muộn gì cũng thành công 🥹 Chăm học vào nha, để có hobo xịn nó thích lắm =)))) Nhưng nhớ vừa học vừa chơi cho trọn vẹn, để sau này nhìn lại không có gì phải hối hận. Cảm ơn vì đã đến hôm nay 🤍✨ ",img:"https://sf-static.upanhlaylink.com/img/image_202603019cf07ee3c003b483c20122f090b631c1.jpg"},
+"10122006":{message:" Dù chị em mình chưa có dịp tâm sự nhiều hay hiểu hết về nhau, cũng chỉ đi cùng nhau một đoạn ngắn thôi, nhưng chị vẫn quý cái khoảng thời gian đó 🥹 Theo lời nhà hiền triết tên Tùng đã nói: \"Đẹp trai làm gì cũng đúng\" =))) Nên thôi cứ đẹp trai tiếp đi nha. Cảm ơn vì đã đến hôm nay 🤍 Chúc Kiên ngày càng đẹp trai hơn, giàu hơn để dpn còn được hưởng ké với. Trân trọng cảm ơn 🫶✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301c7dd0ebbc4e1f7a04f3ca91826b66977.jpg"},
+"03012006":{message:" Dù chị em mình chưa tâm sự và hiểu quá nhiều về nhau, cũng chỉ đi với nhau một đoạn đường không ngắn không dài thôi, nhưng từng khoảnh khắc đó vẫn đủ để chị thấy Vanh là người rất dễ thương và chân thành 🥹 Cảm ơn em vì đã xuất hiện trong đoạn hành trình đó, và vì đã đến hôm nay 🤍 Hy vọng sau này dù mỗi người một hướng, Vanh vẫn luôn giữ được sự dịu dàng của mình và gặp thật nhiều điều tốt đẹp. Trân trọng khoảng thời gian mình từng có ✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301f35430ab27f921daec28d10f30ca5212.jpg"},
+"20082006":{message:" Dù chúng mình chưa tâm sự và hiểu nhiều về nhau, cũng đi với nhau một đoạn đường không ngắn không dài, trải qua những khoảnh khắc đẹp mà cũng có lúc chưa đẹp lắm… nhưng với chị, tất cả đều đáng nhớ 🥹 Cảm ơn vì đã cùng chị đi qua quãng thời gian đó, dù vui hay chưa trọn vẹn thì Hương Lan vẫn là một phần rất đặc biệt trong ký ức này 🤍 Mong sau này Lan gặp thật nhiều điều dịu dàng hơn những gì đã qua. Trân trọng 🫶✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301118fb2e1b1f6036ab9d7fad365db55b8.jpg"},
+"17122004":{message:" Chào bạn =))) mình không thích nhắn tin với bạn đâu, TẠI MÌNH LƯỜI chứ không phải GHÉT nhá 🥲 Nhưng hôm nay mình rất là trân trọng vì bạn iu đã đến hôm nay dù tụi mình đéo thân lắm 🤍 Thôi thì chúc bạn mau giàu thiệt giàu để mình còn hưởng ké với nha. Cảm ơn bạn :) 🫶✨",img:"https://sf-static.upanhlaylink.com/img/image_202603015e6a9a24dd9ab5f9f1e3aafc746d51b2.jpg"},
+"17092004":{message:" Cảm ơn bạn vì dù đ còn học cùng, hết cấp 3 mỗi đứa một nơi mà vẫn còn nhắn tin hỏi han nhau đều 🫰🏼 Giữa cái đời dễ mất liên lạc như này, mà vẫn giữ được contact với bạn mình trân trọng zo cùm🥹🤍 iu bạng nhìu vì đã đến với mình hôm nay. 🤡",img:"https://sf-static.upanhlaylink.com/img/image_20260301680a2560ebacf3cd03c841b241bb362d.jpg"},
+"22062005":{message:" Helu Bếu =))) Nhìn cái mặt là thấy hiền khô luôn á 🥹 Nhưng sau bớt hiền lại nha khong bị bắt nạt check . Mong đời em sau này đừng bị drm như chúng toi 🥲 Và siu cảm ơn vì đã đến hôm nay chung vui với chị nha 🤍 Chúc Bếu ra trường đúng hạn, có hobo và bằng giỏi trở lên nghe🫰🏼✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301099e004da0e25aa52cf69f0fb0b4fefd.jpg"},
+"06032004":{message:" Mày lắm chuyện vl, lại còn khó chiều 🥲 Ở chung tao mới hiểu sao đời mày drama như tao, rum mết như cứt =))) Nhưng nói vậy thôi, sao vẫn cảm ơn bạn iu vì đã đến hôm nay nha 🤍 Ngủ sớm đi để còn nhìn mặt trời nhiều hơn, bớt gem lại cho tao nhờ 🫰🏼✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301aaa2caf061d6f4a802c85621d7e489ed.jpg"},
+"29072004":{message:" Ôi bạn ơi đéo biết sao tao với mày vẫn còn chơi với nhau tới giờ luôn á 🫰🏼 Mày bị cọc vl, nhiều lúc tao nhắn tin còn đ dám joke vì sợ mày quạu 🥲 Nhưng nói vậy thôi chứ tôi quý bạn lắm á . Cảm ơn vì đã đến với tao hôm nay, trân trọng vô cùm. Then kiu 🤍✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301ada45d1a8539b9600689f78140f761ba.jpg"},
+"01102005":{message:" Dù chị em mình chưa tâm sự và hiểu nhiều về nhau, nhưng cảm ơn em Thịnh vì đã vô tình gặp nhau trong đời sinh viên của dpn. Giữa bao nhiêu người lướt qua, tụi mình \"va\" vào nhau rồi cũng gọi là quen, cũng có vài kỷ niệm để nhớ 🥹 Cảm ơn vì đã đến hôm nay và vì đã là một phần trong quãng thời gian đó 🤍 Chúc em sau này vững vàng hơn, làm được điều mình muốn và gặp thật nhiều điều xứng đáng. Trân trọng 🫶✨",img:"https://sf-static.upanhlaylink.com/img/image_20260301add8273dd8493abec31b61df07dd6f67.jpg"},
+"03092004":{message:"Vợ anh sinh sôi nảy nhở nhé 🫰🏼 ",img:"https://sf-static.upanhlaylink.com/img/image_202603015f676dd11b23b75d74b08c83876dfc04.jpg"}
 };
 
-function checkPassword() {
-    const input = document.getElementById("password").value;
-    if(passwords[input]) {
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("messageBox").style.display="block";
-        document.getElementById("messageText").innerText=passwords[input];
-        document.getElementById("music").play();
-        createHearts();
-    } else {
-        alert("Sai mật khẩu rồi nhaaa 😝");
-    }
+/* ===== LOGIN FUNCTION ===== */
+
+function checkPass(){
+
+let pass = document.getElementById("password").value.trim();
+
+if(users[pass]){
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("thankArea").style.display="block";
+
+document.getElementById("mainImage").src = users[pass].img;
+document.getElementById("thankText").innerText = users[pass].message;
+
+/* bật nhạc */
+let music = document.getElementById("bgMusic");
+music.play().then(()=>{}).catch(()=>{});
+
+createFloating();
+createFireworks();
+
+}else{
+alert("Sai mật khẩu rồi nhaaa 🥺");
+}
 }
 
-function createHearts(){
-    setInterval(()=>{
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML="💖";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=Math.random()*30+20+"px";
-        document.body.appendChild(heart);
-        setTimeout(()=>{heart.remove();},5000);
-    },300);
+/* ENTER để đăng nhập */
+document.getElementById("password").addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+checkPass();
 }
+});
+
+/* ===== HEART FLOAT ===== */
+
+function createFloating(){
+
+const layer = document.getElementById("floatLayer");
+layer.innerHTML = "";
+
+for(let i=0;i<30;i++){
+let heart = document.createElement("div");
+heart.innerHTML="💗";
+heart.className="heart";
+heart.style.left=Math.random()*100+"%";
+heart.style.animationDuration=(4+Math.random()*6)+"s";
+layer.appendChild(heart);
+}
+
+}
+
+/* ===== FIREWORK ===== */
+
+function createFireworks(){
+
+for(let i=0;i<35;i++){
+let fw=document.createElement("div");
+fw.className="firework";
+fw.style.left=Math.random()*100+"%";
+fw.style.top=Math.random()*60+"%";
+fw.style.background=`hsl(${Math.random()*360},100%,60%)`;
+document.body.appendChild(fw);
+
+setTimeout(()=>{fw.remove();},1000);
+}
+
+}
+
 </script>
 
 </body>
